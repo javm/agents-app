@@ -6,9 +6,13 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
-    ruby 3.0.3p157
+
+ruby 3.0.3p157
+
 * Rails version
-    Rails 7.0.4.3
+
+Rails 7.0.4.3
+
 * System dependencies
 
 * Configuration
