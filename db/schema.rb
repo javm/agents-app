@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_16_060836) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_17_061440) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_060836) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "call_detail_records", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "calls", force: :cascade do |t|
+    t.string "caller_phone_number"
+    t.string "receiver_phone_number"
+    t.string "duration"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_calls_on_account_id"
+  end
+
   create_table "contacts", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -35,6 +50,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_060836) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_contacts_on_account_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -49,6 +70,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_060836) do
     t.index ["account_id"], name: "index_users_on_account_id"
   end
 
+  add_foreign_key "calls", "accounts"
   add_foreign_key "contacts", "accounts"
   add_foreign_key "users", "accounts"
 end

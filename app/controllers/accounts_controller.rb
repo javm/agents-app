@@ -42,4 +42,10 @@ class AccountsController < ApplicationController
         }
         render json: @contacts_ordered
     end
+
+    def calls
+        @account = Account.find(params[:id])
+        @calls = @account.calls
+        render json: @calls
+    end
 end
