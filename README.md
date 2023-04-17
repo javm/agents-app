@@ -20,8 +20,11 @@ Check on env_example file
 
 * Database creation
 - Create a postgrsql database named as
+
 'agents_app_development'
+
 with
+
 user: agentsapp
 
 * Database initialization
