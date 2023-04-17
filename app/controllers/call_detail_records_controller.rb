@@ -1,0 +1,2 @@
+class CallDetailRecordsController < ApplicationController
+end

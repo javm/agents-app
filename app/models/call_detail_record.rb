@@ -1,0 +1,2 @@
+class CallDetailRecord < ApplicationRecord
+end
