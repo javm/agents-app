@@ -10,7 +10,14 @@ class CallsController < ApplicationController
     end
 
     def create
-        call_params = params[:call].permit(:caller_phone_number, :receiver_phone_number, :duration, :account_id)
+        call_params = params[:call].permit(
+            :caller_phone_number,
+            :receiver_phone_number,
+            :call_type,
+            :start_time,
+            :duration,
+            :account_id
+        )
         @call = Call.new(call_params)
         if @call.save
             render json: @call
@@ -31,6 +38,25 @@ class CallsController < ApplicationController
     def destory 
         @call = Call.find(params[:id])
         @call.destroy
+        render json: @call
+    end
+
+    def end_call
+        @call = Call.find(params[:id])
+        @call.end_time = Time.now
+        @call.duration = @call.end_time - @call.start_time
+        @call.save
+
+        @agent = @call.agent
+        CallDetailRecord.create(
+            call_type: @call.call_type,
+            start_time: @call.start_time,
+            end_time: @call.end_time,
+            account_id: @call.account_id,
+            contact_id: @call.contact_id,
+            agent_id: @agent.id,
+            agent_name: @agent.first_name + " " + @agent.last_name,
+        )
         render json: @call
     end
 

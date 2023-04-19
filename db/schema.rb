@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_17_061440) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_18_204450) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,19 +26,42 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_17_061440) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "call_detail_records", force: :cascade do |t|
+  create_table "agents", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "call_detail_records", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "agent_id", null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string "agent_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_call_detail_records_on_account_id"
+    t.index ["agent_id"], name: "index_call_detail_records_on_agent_id"
+    t.index ["contact_id"], name: "index_call_detail_records_on_contact_id"
   end
 
   create_table "calls", force: :cascade do |t|
     t.string "caller_phone_number"
     t.string "receiver_phone_number"
-    t.string "duration"
+    t.string "call_type"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string "agent_answer_time"
+    t.integer "duration"
     t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "agent_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_calls_on_account_id"
+    t.index ["agent_id"], name: "index_calls_on_agent_id"
+    t.index ["contact_id"], name: "index_calls_on_contact_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -70,7 +93,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_17_061440) do
     t.index ["account_id"], name: "index_users_on_account_id"
   end
 
+  add_foreign_key "call_detail_records", "accounts"
+  add_foreign_key "call_detail_records", "agents"
+  add_foreign_key "call_detail_records", "contacts"
   add_foreign_key "calls", "accounts"
+  add_foreign_key "calls", "agents"
+  add_foreign_key "calls", "contacts"
   add_foreign_key "contacts", "accounts"
   add_foreign_key "users", "accounts"
 end
