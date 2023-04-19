@@ -56,6 +56,7 @@ class AccountsController < ApplicationController
         @call_detail_records = @calls.map { |call|
             call_detail_record = CallDetailRecord.find_by(call_id: call.id)
         }
-        render json: @call_detail_records
+        res = @call_detail_records.compact.sort_by { |call_detail_record| call_detail_record.end_time }
+        render json: res.reverse
     end
 end
