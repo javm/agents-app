@@ -48,4 +48,14 @@ class AccountsController < ApplicationController
         @calls = @account.calls
         render json: @calls
     end
+
+    def get_contact_calls
+        @account = Account.find(params[:id])
+        @contact = @account.contacts.find(params[:cid])
+        @calls = @contact.calls
+        @call_detail_records = @calls.map { |call|
+            call_detail_record = CallDetailRecord.find_by(call_id: call.id)
+        }
+        render json: @call_detail_records
+    end
 end
