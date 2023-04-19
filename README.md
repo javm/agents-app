@@ -39,4 +39,18 @@ rails db:seed RAILS_ENV=development
 
 * Deployment instructions
 
-* ...
+bundle install
+
+* Roadmap to test the endpoints
+
+- Create a call
+curl --request POST \
+  --url http://localhost:3000/calls \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"call_type": "inbound",
+	"account_id": 2,
+	"agent_id": 1,
+	"caller_phone_number": "(954) 123-4567",
+	"receiver_phone_number": "(954) 121-4321"
+}'

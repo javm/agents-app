@@ -20,6 +20,9 @@ class CallsController < ApplicationController
             :agent_id
         )
         
+        if call_params[:call_type].nil? 
+            call_params[:call_type] = "inbound"
+        end
         if call_params[:call_type] == "inbound"
             call_params[:contact_id] = Contact.find_by(phone_number: call_params[:caller_phone_number]).id
         else
