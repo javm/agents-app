@@ -32,7 +32,7 @@ user1 = User.create(
 contact1 = Contact.create(
     first_name: "John",
     last_name: "Doe",
-    email: "john@gmail.com",
+    email: "john.doe@gmail.com",
     phone_number: "(954) 456-7890",
     account_id: account1.id
 )
@@ -59,4 +59,12 @@ contact4 = Contact.create(
     email: "sally@gmail.com",
     phone_number: "(954) 123-4567",
     account_id: account1.id
+)
+
+agent1 = Agent.create(
+    name: "Agent 1"
+)
+
+agent2 = Agent.create(
+    name: "Agent 2"
 )

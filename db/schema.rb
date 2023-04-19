@@ -36,6 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_204450) do
     t.bigint "account_id", null: false
     t.bigint "contact_id", null: false
     t.bigint "agent_id", null: false
+    t.bigint "call_id", null: false
     t.datetime "start_time"
     t.datetime "end_time"
     t.string "agent_name"
@@ -43,6 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_204450) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_call_detail_records_on_account_id"
     t.index ["agent_id"], name: "index_call_detail_records_on_agent_id"
+    t.index ["call_id"], name: "index_call_detail_records_on_call_id"
     t.index ["contact_id"], name: "index_call_detail_records_on_contact_id"
   end
 
@@ -95,6 +97,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_204450) do
 
   add_foreign_key "call_detail_records", "accounts"
   add_foreign_key "call_detail_records", "agents"
+  add_foreign_key "call_detail_records", "calls"
   add_foreign_key "call_detail_records", "contacts"
   add_foreign_key "calls", "accounts"
   add_foreign_key "calls", "agents"

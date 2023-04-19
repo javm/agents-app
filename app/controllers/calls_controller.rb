@@ -16,13 +16,21 @@ class CallsController < ApplicationController
             :call_type,
             :start_time,
             :duration,
-            :account_id
+            :account_id,
+            :agent_id
         )
+        
+        if call_params[:call_type] == "inbound"
+            call_params[:contact_id] = Contact.find_by(phone_number: call_params[:caller_phone_number]).id
+        else
+            call_params[:contact_id] = Contact.find_by(phone_number: call_params[:receiver_phone_number]).id
+        end
+        call_params[:start_time] = Time.now
         @call = Call.new(call_params)
         if @call.save
             render json: @call
         else
-            render json: @call.errors
+            render json: @call.errors, status: :unprocessable_entity
         end
     end
 
@@ -44,18 +52,18 @@ class CallsController < ApplicationController
     def end_call
         @call = Call.find(params[:id])
         @call.end_time = Time.now
-        @call.duration = @call.end_time - @call.start_time
+        #@call.duration = Time.parse(@call.end_time.to_s).to_i - Time.parse(@call.start_time.to_s).to_i
         @call.save
 
         @agent = @call.agent
         CallDetailRecord.create(
-            call_type: @call.call_type,
             start_time: @call.start_time,
             end_time: @call.end_time,
             account_id: @call.account_id,
             contact_id: @call.contact_id,
+            call_id: @call.id,
             agent_id: @agent.id,
-            agent_name: @agent.first_name + " " + @agent.last_name,
+            agent_name: @agent.name,
         )
         render json: @call
     end
