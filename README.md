@@ -54,3 +54,22 @@ curl --request POST \
 	"caller_phone_number": "(954) 123-4567",
 	"receiver_phone_number": "(954) 121-4321"
 }'
+
+- Get calls by contact
+curl --request GET \
+  --url http://localhost:3000/accounts/2/contacts/5/calls \
+  --header 'Content-Type: application/json'
+
+- Get contacts by account
+curl --request GET \
+  --url http://localhost:3000/accounts/2/contacts
+
+- End a call
+curl --request POST \
+  --url http://localhost:3000/calls/3/end_call \
+  --header 'Content-Type: application/json'
+
+- Call detatails by contact
+curl --request GET \
+  --url http://localhost:3000/accounts/2/contacts/8/calls \
+  --header 'Content-Type: application/json'
